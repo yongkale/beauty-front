@@ -26,7 +26,7 @@
             会员总收入：{{membertotolMoney}}
         </div>
         <br />
-        <div>
+            <div>
             散客总收入：{{totolMoney}}
         </div>
     </div>
