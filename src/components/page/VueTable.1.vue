@@ -12,34 +12,42 @@
             <el-table-column
                 prop="costType"
                 label="类型"
-               width="180">
+                width="80">
             </el-table-column>
             <el-table-column
                 prop="payMoney"
                 label="金额"
-                width="117">
+                width="80">
             </el-table-column>
             <el-table-column
                 prop="payDate"
                 label="支付时间"
-                width="180">
+                width="80">
             </el-table-column>
             <el-table-column
                 prop="repsoenPerson"
                 label="责任人"
-               width="180">
+                width="80">
             </el-table-column>
             <el-table-column
                 prop="leaderPerson"
                 label="导师"
-               width="180">
+                width="80">
             </el-table-column>
             <el-table-column
                 prop="assginPerson"
                 label="助理"
-               width="180">
+                width="80">
             </el-table-column>
- 
+            <el-table-column
+            fixed="right"
+                label="操作"
+                width="100">
+                <template slot-scope="scope">
+                    <el-button @click="detail(scope.row)" type="text" size="small">查看</el-button>
+                    <el-button @click="eidt(scope.row)" type="text" size="small">编辑</el-button>
+                </template>
+            </el-table-column>
         </el-table>
     </div>
 </template>
@@ -79,7 +87,7 @@
                 console.log(row);
             },
             eidt(row) {
-                this.$router.push({ path: '/editusertable', query: {memberId: row.memberId, memberType: row.memberType}})
+                this.$router.push({ path: '/editusertable', query: {id: row}})
             },
             changePage(values) {
                 this.information.pagination.per_page = values.perpage;

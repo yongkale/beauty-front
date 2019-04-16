@@ -24,59 +24,85 @@
         data() {
             return {
                 items: [
-                    {
-                        icon: 'el-icon-setting',
-                        index: 'readme',
-                        title: '自述'
-                    },
+                    // {
+                    //     icon: 'el-icon-setting',
+                    //     index: 'readme',
+                    //     title: '自述'
+                    // },
                     {
                         icon: 'el-icon-menu',
                         index: '2',
-                        title: '普通用户',
+                        title: '散客用户',
                         subs: [
                             {
                                 index: 'basetable',
-                                title: '添加用户'
+                                title: '添加消费'
                             },
-                            {
-                                index: 'vuetable',
-                                title: '用户列表'
-                            }
+                            // {
+                            //     index: 'vuetable',
+                            //     title: '散客列表'
+                            // }
                         ]
                     },
                     {
                         icon: 'el-icon-date',
                         index: '3',
-                        title: '表单',
+                        title: '会员用户',
                         subs: [
                             {
                                 index: 'baseform',
-                                title: '基本表单'
+                                title: '添加会员'
                             },
                             {
-                                index: 'vueeditor',
-                                title: '编辑器'
-                            },
-                            {
-                                index: 'markdown',
-                                title: 'markdown'
-                            },
-                            {
-                                index: 'upload',
-                                title: '文件上传'
+                                index: 'memberList',
+                                title: '会员列表'
                             }
                         ]
                     },
                     {
-                        icon: 'el-icon-star-on',
-                        index: 'basecharts',
-                        title: '图表'
+                        icon: 'el-icon-date',
+                        index: '4',
+                        title: '员工管理',
+                        subs: [
+                            {
+                                index: 'addemployee',
+                                title: '添加员工'
+                            },
+                            {
+                                index: 'empolyeelist',
+                                title: '员工列表'
+                            },
+                        ]
                     },
                     {
-                        icon: 'el-icon-upload2',
-                        index: 'drag',
-                        title: '拖拽'
-                    }
+                        icon: 'el-icon-date',
+                        index: '5',
+                        title: '账单',
+                        subs: [
+                            {
+                                index: 'billTotal',
+                                title: '账单统计'
+                            },
+                            {
+                                index: 'findBill',
+                                title: '散客账单'
+                            },
+                            {
+                                index: 'findMemberBill',
+                                title: '会员账单'
+                            },
+                        ]
+                    },
+                    // {
+                    //     icon: 'el-icon-star-on',
+                    //     index: 'basecharts',
+                    //     title: '图表'
+                    // },
+                    // {
+                    //     icon: 'el-icon-upload2',
+                    //     index: 'drag',
+                    //     title: '拖拽'
+                    // }
                 ]
             }
         },

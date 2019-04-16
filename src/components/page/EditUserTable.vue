@@ -70,35 +70,13 @@ import axios from 'axios';
                     name: '',
                     repsoenPerson: '',
                 },
-                rules: {
-                    repsoenPerson: [
-                        { required: true, message: '请输入', trigger: 'blur' }
-                    ],
-                    memberId: [
-                        { required: true, message: '请输入', trigger: 'blur' }
-                    ],
-                    phoneNumber: [
-                        { required: true, message: '请输入', trigger: 'blur' }
-                    ],
-                    name: [
-                        { required: true, message: '请输入', trigger: 'blur' }
-                    ],
-                    remarks: [
-                        { required: true, message: '请输入', trigger: 'blur' }
-                    ],
-                    memberNumber: [
-                        { required: true, message: '请输入', trigger: 'blur' }
-                    ],
-                    memberMeony: [
-                        { required: true, message: '请输入', trigger: 'blur' }
-                    ]
-                }
             }
         },
         mounted: function() {
-             axios.get('/api/employee/findAll', this.ruleForm).then( (res) => {
-                this.person = res.data;
-                console.log(this.person);
+            let id = this.$route.query.id; 
+             axios.get('/api/member/findMemberUserById?id=' + id).then( (res) => {
+                this.ruleForm = res.data;
+                console.log(this.ruleForm);
              })
         },
         methods: {

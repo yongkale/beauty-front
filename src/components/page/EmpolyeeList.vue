@@ -10,36 +10,31 @@
             :data="tableData"
             style="width: 100%">
             <el-table-column
-                prop="costType"
-                label="类型"
-               width="180">
-            </el-table-column>
-            <el-table-column
-                prop="payMoney"
-                label="金额"
-                width="117">
-            </el-table-column>
-            <el-table-column
-                prop="payDate"
-                label="支付时间"
+                prop="employeeId"
+                label="员工ID"
                 width="180">
             </el-table-column>
             <el-table-column
-                prop="repsoenPerson"
-                label="责任人"
-               width="180">
+                prop="employeeName"
+                label="员工姓名"
+                width="180">
             </el-table-column>
             <el-table-column
-                prop="leaderPerson"
-                label="导师"
-               width="180">
+                prop="employeePhone"
+                label="员工电话">
             </el-table-column>
             <el-table-column
-                prop="assginPerson"
-                label="助理"
-               width="180">
+                prop="employeeType"
+                label="员工类型">
             </el-table-column>
- 
+            <el-table-column
+            fixed="right"
+                label="操作"
+                width="100">
+                <template slot-scope="scope">
+                    <el-button @click="eidt(scope.row)" type="text" size="small">编辑</el-button>
+                </template>
+            </el-table-column>
         </el-table>
     </div>
 </template>
@@ -69,7 +64,7 @@
             }
         },
         mounted: function() {
-             axios.get('/api/commmonuser/findAll', this.ruleForm).then( (res) => {
+             axios.get('/api/employee/findAll', this.ruleForm).then( (res) => {
                 this.tableData = res.data
                 console.log(this.tableData);
              })
@@ -79,7 +74,7 @@
                 console.log(row);
             },
             eidt(row) {
-                this.$router.push({ path: '/editusertable', query: {memberId: row.memberId, memberType: row.memberType}})
+                this.$router.push({ path: '/editempolyee', query: {id: row}})
             },
             changePage(values) {
                 this.information.pagination.per_page = values.perpage;
