@@ -74,10 +74,13 @@ import axios from 'axios';
         },
         mounted: function() {
             let id = this.$route.query.id; 
-             axios.get('/api/member/findMemberUserById?id=' + id).then( (res) => {
+            axios.get('/api/member/findMemberUserById?id=' + id).then( (res) => {
                 this.ruleForm = res.data;
-                console.log(this.ruleForm);
-             })
+            })
+
+            axios.get('/api/employee/findAll', this.ruleForm).then( (res) => {
+                this.person = res.data;
+            })
         },
         methods: {
             onSubmit(formName) {

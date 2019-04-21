@@ -64,7 +64,6 @@
 
 <script>
     import axios from 'axios';
-    import Datasource from 'vue-datasource';
     export default {
         data: function(){
             const self = this;
@@ -107,13 +106,13 @@
                 if (this.startday) {
                     isSearch = true;
                     var d = new Date(this.startday);  
-                    this.formatstartday = '' + d.getFullYear() + ((d.getMonth() + 1) < 10 ? '0' + (d.getMonth() + 1) : (d.getMonth() + 1)) + d.getDate();  
+                    this.formatstartday = '' + d.getFullYear() + ((d.getMonth() + 1) < 10 ? '0' + (d.getMonth() + 1) : (d.getMonth() + 1)) + ((d.getDate() + 1) < 10 ? '0' + (d.getDate() + 1) : (d.getDate() + 1));  
                 }
 
                 if (this.endday) {
                     isSearch = true;
                     d = new Date(this.endday);  
-                    this.formatendday = '' + d.getFullYear() + ((d.getMonth() + 1) < 10 ? '0' + (d.getMonth() + 1) : (d.getMonth() + 1)) + d.getDate();  
+                    this.formatendday = '' + d.getFullYear() + ((d.getMonth() + 1) < 10 ? '0' + (d.getMonth() + 1) : (d.getMonth() + 1)) + ((d.getDate() + 1) < 10 ? '0' + (d.getDate() + 1) : (d.getDate() + 1));  
                 }
 
                 if (isSearch) {

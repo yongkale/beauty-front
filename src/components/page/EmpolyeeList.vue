@@ -41,7 +41,6 @@
 
 <script>
     import axios from 'axios';
-    import Datasource from 'vue-datasource';
     export default {
         data: function(){
             const self = this;
@@ -93,14 +92,6 @@
                     }
                 })
             }
-        },
-        beforeMount(){
-            if(process.env.NODE_ENV === 'development'){
-                this.url = '/ms/table/source';
-            };
-            axios.get(this.url).then( (res) => {
-                this.information = res.data;
-            })
         }
     }
 </script>

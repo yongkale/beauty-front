@@ -98,14 +98,6 @@
                     }
                 })
             }
-        },
-        beforeMount(){
-            if(process.env.NODE_ENV === 'development'){
-                this.url = '/ms/table/source';
-            };
-            axios.get(this.url).then( (res) => {
-                this.information = res.data;
-            })
         }
     }
 </script>

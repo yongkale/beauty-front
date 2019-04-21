@@ -15,6 +15,7 @@
     </div>
 </template>
 <script>
+    import axios from 'axios';
     export default {
         data() {
             return {
@@ -31,6 +32,8 @@
             handleCommand(command) {
                 if(command == 'loginout'){
                     localStorage.removeItem('ms_username')
+                    axios.get('/api/logout', this.ruleForm).then( (res) => {
+                    })
                     this.$router.push('/login');
                 }
             }
