@@ -44,8 +44,8 @@
                 //     pagination:{},
                 //     data:[]
                 // },
-                endday: '',
-                startday: '',
+                endday: new Date(),
+                startday: new Date(),
                 searchday: '',
                 formatstartday: '',
                 totolMoney: 0,
@@ -62,12 +62,7 @@
             }
         },
         mounted: function() {
-             axios.get('/api/bill/findbill', this.ruleForm).then( (res) => {
-                this.totolMoney = res.data
-             });
-             axios.get('/api/bill/findmemberbill', this.ruleForm).then( (res) => {
-                this.membertotolMoney = res.data
-             });
+             this.findbill();
         },
         methods: {
             findbill() {

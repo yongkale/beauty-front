@@ -45,7 +45,7 @@
                         ]
                     },
                     {
-                        icon: 'el-icon-date',
+                        icon: 'el-icon-menu',
                         index: '3',
                         title: '会员用户',
                         subs: [
@@ -60,7 +60,7 @@
                         ]
                     },
                     {
-                        icon: 'el-icon-date',
+                        icon: 'el-icon-menu',
                         index: '4',
                         title: '员工管理',
                         subs: [
@@ -75,7 +75,7 @@
                         ]
                     },
                     {
-                        icon: 'el-icon-date',
+                        icon: 'el-icon-menu',
                         index: '5',
                         title: '账单',
                         subs: [
@@ -91,6 +91,20 @@
                                 index: 'findMemberBill',
                                 title: '会员账单'
                             },
+                        ]
+                    },                    {
+                        icon: 'el-icon-menu',
+                        index: '6',
+                        title: '绩效考核',
+                        subs: [
+                            {
+                                index: 'employeeAssessment',
+                                title: '员工考核'
+                            },
+                            {
+                                index: 'typeAssessment',
+                                title: '类型考核'
+                            }
                         ]
                     },
                     // {

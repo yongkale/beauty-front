@@ -22,10 +22,6 @@
                     <el-input v-model="ruleForm.memberMeony"></el-input>
                 </el-form-item>
 
-                <el-form-item label="次数" prop='memberNumber'>
-                    <el-input v-model="ruleForm.memberNumber"></el-input>
-                </el-form-item>
-
                 <el-form-item label="备注" prop='remarks'>
                     <el-input v-model="ruleForm.remarks"></el-input>
                 </el-form-item>
@@ -65,7 +61,6 @@ import axios from 'axios';
                     memberType: '',
                     memberMeony: '',
                     remarks: '',
-                    memberNumber: '',
                     phoneNumber: '',
                     name: '',
                     repsoenPerson: '',
@@ -84,9 +79,6 @@ import axios from 'axios';
                         { required: true, message: '请输入', trigger: 'blur' }
                     ],
                     remarks: [
-                        { required: true, message: '请输入', trigger: 'blur' }
-                    ],
-                    memberNumber: [
                         { required: true, message: '请输入', trigger: 'blur' }
                     ],
                     memberMeony: [
@@ -109,7 +101,6 @@ import axios from 'axios';
                         axios.post('/api/member/save', this.ruleForm).then( (res) => {
                             this.user = res.data;
                             if (res.data) {
-                                localStorage.setItem('ms_username', this.user.userName);
                                 self.$router.push('/memberList');
                                 this.$message('添加成功');
                             } else {

@@ -62,7 +62,6 @@ import axios from 'axios';
                         axios.post('/api/employee/add', this.ruleForm).then( (res) => {
                             this.user = res.data;
                             if (res.data) {
-                                localStorage.setItem('ms_username', this.user.userName);
                                 self.$router.push('/empolyeelist');
                                 this.$message('添加成功');
                             } else {

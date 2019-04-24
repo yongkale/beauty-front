@@ -23,7 +23,7 @@
             </el-date-picker>
         </div>
         <div>
-            总收入：{{totolMoney}}
+            总收入：{{totolMoney? totolMoney : 0}}
         </div>
         <el-table
             :data="tableData"
@@ -42,11 +42,6 @@
                 prop="memberMeony"
                 label="金额"
                 width="126">
-            </el-table-column>
-            <el-table-column
-                prop="memberNumber"
-                label="次数"
-                width="130">
             </el-table-column>
             <el-table-column
                 prop="remarks"
@@ -79,8 +74,8 @@
                 //     pagination:{},
                 //     data:[]
                 // },
-                endday: '',
-                startday: '',
+                endday: new Date(),
+                startday: new Date(),
                 searchday: '',
                 formatstartday: '',
                 formatendday: '',
@@ -98,30 +93,21 @@
             }
         },
         mounted: function() {
-            console.log(this.searchday);
-             axios.get('/api/bill/findmemberbill', this.ruleForm).then( (res) => {
-                this.totolMoney = res.data
-             });
-             axios.get('/api/rechage/findAll', this.ruleForm).then( (res) => {
-                 console.log(res.data)
-                this.tableData = res.data
-             })
+            this.findbill()
         },
         methods: {
             findbill() {
                 let isSearch = false;
-                let startday = '';
-                let endday = '';
                 if (this.startday) {
                     isSearch = true;
                     var d = new Date(this.startday);  
-                    this.formatstartday = '' + d.getFullYear() + ((d.getMonth() + 1) < 10 ? '0' + (d.getMonth() + 1) : (d.getMonth() + 1)) + ((d.getDate() + 1) < 10 ? '0' + (d.getDate() + 1) : (d.getDate() + 1));  
+                    this.formatstartday = '' + d.getFullYear() + ((d.getMonth() + 1) < 10 ? '0' + (d.getMonth() + 1) : (d.getMonth() + 1)) + ((d.getDate() + 1) < 10 ? '0' + (d.getDate()) : (d.getDate()));  
                 }
 
                 if (this.endday) {
                     isSearch = true;
                     d = new Date(this.endday);  
-                    this.formatendday = '' + d.getFullYear() + ((d.getMonth() + 1) < 10 ? '0' + (d.getMonth() + 1) : (d.getMonth() + 1)) + ((d.getDate() + 1) < 10 ? '0' + (d.getDate() + 1) : (d.getDate() + 1));
+                    this.formatendday = '' + d.getFullYear() + ((d.getMonth() + 1) < 10 ? '0' + (d.getMonth() + 1) : (d.getMonth() + 1)) + ((d.getDate() + 1) < 10 ? '0' + (d.getDate()) : (d.getDate()));
                 }
 
                 if (isSearch) {

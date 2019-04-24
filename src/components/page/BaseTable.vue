@@ -97,11 +97,16 @@ import axios from 'axios';
                         axios.post('/api/commmonuser/save?type=create', this.ruleForm).then( (res) => {
                             this.user = res.data;
                             if (res.data) {
-                                localStorage.setItem('ms_username', this.user.userName);
-                                self.$router.push('/vuetable');
+                                this.ruleForm = {
+                                    costType: '',
+                                    payMoney: '',
+                                    assginPerson: '',
+                                    leaderPerson: '',
+                                    repsoenPerson: '',
+                                };
                                 this.$message('添加成功');
                             } else {
-                                this.$message('登录失败');
+                                this.$message('添加失败');
                             }
                         });
                     } else {

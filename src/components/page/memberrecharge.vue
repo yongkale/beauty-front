@@ -22,10 +22,6 @@
                     <el-input v-model="ruleForm.memberMeony"></el-input>
                 </el-form-item>
 
-                <el-form-item label="次数" prop='memberNumber'>
-                    <el-input v-model="ruleForm.memberNumber"></el-input>
-                </el-form-item>
-
                 <el-form-item label="备注" prop='remarks'>
                     <el-input v-model="ruleForm.remarks"></el-input>
                 </el-form-item>
@@ -63,7 +59,6 @@ import axios from 'axios';
                     memberType: '',
                     memberMeony: '',
                     remarks: '',
-                    memberNumber: '',
                     phoneNumber: '',
                     name: '',
                     repsoenPerson: '',
@@ -72,10 +67,10 @@ import axios from 'axios';
                     repsoenPerson: [
                         { required: true, message: '请输入', trigger: 'blur' }
                     ],
-                    memberNumber: [
+                    memberMeony: [
                         { required: true, message: '请输入', trigger: 'blur' }
                     ],
-                    memberMeony: [
+                    remarks: [
                         { required: true, message: '请输入', trigger: 'blur' }
                     ]
                 }
@@ -87,7 +82,6 @@ import axios from 'axios';
             axios.get('/api/member/findMemberUserBytypeAndId?memberId=' + memberId + "&memberType=" + memberType).then( (res) => {
                 this.ruleForm = res.data;
                 this.ruleForm.repsoenPerson = '';
-                this.ruleForm.memberNumber = '';
                 this.ruleForm.memberMeony = '';
             })
             axios.get('/api/employee/findAll', this.ruleForm).then( (res) => {
@@ -104,9 +98,9 @@ import axios from 'axios';
                             this.user = res.data;
                             if (res.data) {
                                 self.$router.push('/memberList');
-                                this.$message('添加成功');
+                                this.$message('充值成功');
                             } else {
-                                this.$message('添加失败');
+                                this.$message('充值失败');
                             }
                         });
                     } else {

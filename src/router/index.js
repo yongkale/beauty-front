@@ -91,6 +91,14 @@ export default new Router({
                 {
                     path: '/editempolyee',
                     component: resolve => require(['../components/page/editempolyee.vue'], resolve)    // 拖拽列表组件
+                },
+                {
+                    path: '/employeeAssessment',
+                    component: resolve => require(['../components/page/employeeAssessment.vue'], resolve)    // 拖拽列表组件
+                },
+                {
+                    path: '/typeAssessment',
+                    component: resolve => require(['../components/page/typeAssessment.vue'], resolve)    // 拖拽列表组件
                 }
             ]
         },

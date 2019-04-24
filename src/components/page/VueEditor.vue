@@ -27,8 +27,8 @@
                 width="130">
             </el-table-column>
             <el-table-column
-                prop="memberNumber"
-                label="次数"
+                prop="memberMeony"
+                label="金额"
                 width="70">
             </el-table-column>
             <el-table-column
@@ -85,7 +85,6 @@
         mounted: function() {
              axios.get('/api/member/findAll', this.ruleForm).then( (res) => {
                 this.tableData = res.data
-                console.log(this.tableData);
              })
         },
         methods: {
@@ -93,10 +92,9 @@
                 axios.get('/api/member/search?searchKey=' + this.searchKey).then( (res) => {
                 this.tableData = res.data
             })
-                console.log(this.searchKey);
             },
             detail(row) {
-                this.$router.push({ path: '/memberredetail', query: {memberId: row.memberId, memberType: row.memberType}})
+                this.$router.push({ path: '/memberredetail', query: {memberId: row.memberId, memberType: row.memberType, idRef: row.id}})
             },
             recharge(row) {
                 this.$router.push({ path: '/memberrecharge', query: {memberId: row.memberId, memberType: row.memberType}})
@@ -115,24 +113,6 @@
                 this.query = searchQuery;
             }
         },
-        computed:{
-            // getData(){
-            //     const self = this;
-            //     return self.information.data.filter(function (d) {
-            //         if(d.name.indexOf(self.query) > -1){
-            //             return d;
-            //         }
-            //     })
-            // }
-        },
-        beforeMount(){
-            // if(process.env.NODE_ENV === 'development'){
-            //     this.url = '/ms/table/source';
-            // };
-            // axios.get(this.url).then( (res) => {
-            //     this.information = res.data;
-            // })
-        }
     }
 </script>
 

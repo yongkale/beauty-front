@@ -3,7 +3,7 @@
         <div class="crumbs">
             <el-breadcrumb separator="/">
                 <el-breadcrumb-item><i class="el-icon-date"></i> 会员用户</el-breadcrumb-item>
-                <el-breadcrumb-item>会员充值</el-breadcrumb-item>
+                <el-breadcrumb-item>会员消费</el-breadcrumb-item>
             </el-breadcrumb>
         </div>
         <div class="form-box">
@@ -18,8 +18,8 @@
                     <el-input v-model="ruleForm.memberId" disabled=true ></el-input>
                 </el-form-item>
 
-                <el-form-item label="次数" prop='memberNumber'>
-                    <el-input v-model="ruleForm.memberNumber"></el-input>
+                <el-form-item label="消费金额" prop='costMoney'>
+                    <el-input v-model="ruleForm.costMoney"></el-input>
                 </el-form-item>
 
                 <el-form-item label="备注" prop='remarks'>
@@ -71,7 +71,7 @@ import axios from 'axios';
                     memberId: '',
                     memberType: '',
                     remarks: '',
-                    memberNumber: '',
+                    costMoney: '',
                     phoneNumber: '',
                     name: '',
                     repsoenPerson: '',
@@ -82,7 +82,7 @@ import axios from 'axios';
                     repsoenPerson: [
                         { required: true, message: '请输入', trigger: 'blur' }
                     ],
-                    memberNumber: [
+                    costMoney: [
                         { required: true, message: '请输入', trigger: 'blur' }
                     ]
                 }
@@ -94,7 +94,7 @@ import axios from 'axios';
             axios.get('/api/member/findMemberUserBytypeAndId?memberId=' + memberId + "&memberType=" + memberType).then( (res) => {
                 this.ruleForm = res.data;
                 this.ruleForm.repsoenPerson = '';
-                this.ruleForm.memberNumber = '';
+                this.ruleForm.costMoney = '';
                 this.ruleForm.memberMeony = '';
             })
             axios.get('/api/employee/findAll', this.ruleForm).then( (res) => {
@@ -108,12 +108,15 @@ import axios from 'axios';
                 self.$refs[formName].validate((valid) => {
                     if (valid) {
                         axios.post('/api/membercost/save', this.ruleForm).then( (res) => {
-                            this.user = res.data;
-                            if (res.data) {
+                            let result = res.data;
+                            if (result.status === 1) {
+                                this.$message(result.msg);
+                            }
+                            
+                            if (result.status === 0) {
+                                this.user = result.data;
                                 self.$router.push('/memberList');
-                                this.$message('添加成功');
-                            } else {
-                                this.$message('添加失败');
+                                this.$message('消费成功');
                             }
                         });
                     } else {
