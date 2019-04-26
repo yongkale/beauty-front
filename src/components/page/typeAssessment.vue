@@ -45,7 +45,11 @@
                 </el-form-item>
             </el-form>
         </div>
-
+        <div style="clear: both;"></div>
+        <div v-show="'全部' === type">
+            <div id="myChart" :style="{width: '300px', height: '300px'}"></div>
+            <div id="myChart1" :style="{width: '300px', height: '300px'}"></div>
+        </div>
         <el-table
             :data="commonTableData" v-show="'普通' === type"
             style="width: 100%">
@@ -125,7 +129,6 @@
 
 <script>
     import axios from 'axios';
-    import Datasource from 'vue-datasource';
     export default {
         data: function(){
             const self = this;
@@ -140,16 +143,120 @@
                 tableData: [],
                 commonTableData: [],
                 rules: [],
-                type: "全部"
+                type: "全部",
+                memberBar: 0,
+                memberSkin: 0,
+                memberNail: 0,
+                bar: 0,
+                skin: 0,
+                nail: 0,
             }
         },
         mounted: function() {
-            axios.get('/api/employee/findAll', this.ruleForm).then( (res) => {
-                this.person = res.data;
-            })
+            this.changeType();
         },
         methods: {
+            drawLineMemrber(){
+                // 基于准备好的dom，初始化echarts实例
+                let myChart = this.$echarts.init(document.getElementById('myChart'))
+                // 绘制图表
+                myChart.setOption({
+                    title: { text: '会员消费' },
+                    tooltip: {},
+                    xAxis: {
+                        type: 'category',
+                        data: ["美容","美发","美甲"]
+                    },
+                    yAxis: {type: 'value'},
+                    series: [{
+                        name: '人数',
+                        type: 'bar',
+                        data: [this.memberBar, this.memberSkin, this.memberNail]
+                    }]
+                });
+            },
+            drawLine(){
+            let myChart1 = this.$echarts.init(document.getElementById('myChart1'))
+                // 绘制图表
+                myChart1.setOption({
+                    title: { text: '普通消费' },
+                    tooltip: {},
+                    xAxis: {
+                        type: 'category',
+                        data: ["美容","美发","美甲"]
+                    },
+                    yAxis: {type: 'value'},
+                    series: [{
+                        name: '人数',
+                        type: 'bar',
+                        data: [this.bar, this.skin, this.nail]
+                    }]
+                    
+                });
+            },
+            count() {
+                let isSearch = false;
+
+                if (this.startday) {
+                    isSearch = true;
+                    var d = new Date(this.startday);  
+                    this.formatstartday = '' + d.getFullYear() + ((d.getMonth() + 1) < 10 ? '0' + (d.getMonth() + 1) : (d.getMonth() + 1)) + ((d.getDate() + 1) < 10 ? '0' + (d.getDate()) : (d.getDate()));  
+                }
+
+                if (this.endday) {
+                    isSearch = true;
+                    d = new Date(this.endday);  
+                    this.formatendday = '' + d.getFullYear() + ((d.getMonth() + 1) < 10 ? '0' + (d.getMonth() + 1) : (d.getMonth() + 1)) + ((d.getDate() + 1) < 10 ? '0' + (d.getDate()) : (d.getDate()));  
+                }
+
+                 if (isSearch) {
+
+                    if ('全部' === this.type) {
+                        axios.get('/api/membercost/findCountByType?startday=' + this.formatstartday + '&endday=' + this.formatendday).then( (res) => {
+                            res.data.forEach((data) => {
+                                if (data['member_type'] === '美发') {
+                                    this.memberBar = data['count']
+                                }
+
+                                if (data['member_type'] === '美容') {
+                                    this.memberSkin = data['count']
+                                }
+
+                                if (data['member_type'] === '美甲') {
+                                    this.memberNail = data['count']
+                                }
+
+                            }) 
+
+                             this.drawLineMemrber();
+                        });
+
+                        axios.get('/api/commmonuser/findCountByType?startday=' + this.formatstartday + '&endday=' + this.formatendday).then( (res) => {
+                            res.data.forEach((data) =>{
+                                if (data['cost_type'] === '美发') {
+                                    this.bar = data['count']
+                                }
+
+                                if (data['cost_type'] === '美容') {
+                                    this.skin = data['count']
+                                }
+
+                                if (data['cost_type'] === '美甲') {
+                                    this.nail = data['count']
+                                }
+
+                            });
+                            this.drawLine();
+                        });
+                    }
+                }
+            },
             changeType() {
+                if ('全部' === this.type) {
+                    this.count();
+                    return;
+                }
+
                 let isSearch = false;
 
                 if (this.memberType) {
@@ -188,4 +295,15 @@
     }
 </script>
 
-<style src="../../../static/css/datasource.css"></style>
+<style>
+  #myChart {
+        margin-top: 20px;
+        float: left;
+    }
+
+    #myChart1 {
+        margin-top: 20px;
+        float: left;
+        margin-left: 50px;
+    }
+</style>

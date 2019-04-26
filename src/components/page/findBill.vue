@@ -68,11 +68,6 @@
         data: function(){
             const self = this;
             return {
-                // url: './static/datasource.json',
-                // information: {
-                //     pagination:{},
-                //     data:[]
-                // },
                 endday: new Date(),
                 startday: new Date(),
                 searchday: '',
@@ -80,15 +75,6 @@
                 formatendday: '',
                 totolMoney: 0,
                 tableData: [],
-                // actions: [
-                //     {
-                //         text: 'Click',
-                //         class: 'btn-primary',
-                //         event(e, row) {
-                //             self.$message('选中的行数： ' + row.row.id);
-                //         }
-                //     }
-                // ],
             }
         },
         mounted: function() {
@@ -120,31 +106,7 @@
                     })
                 } 
             }
-            // detail(row) {
-            //     console.log(row);
-            // },
-            // eidt(row) {
-            //     this.$router.push({ path: '/editusertable', query: {id: row}})
-            // },
-            // changePage(values) {
-            //     this.information.pagination.per_page = values.perpage;
-            //     this.information.data = this.information.data;
-            // },
-            // onSearch(searchQuery) {
-            //     this.query = searchQuery;
-            // }
         },
-        computed:{
-          
-        },
-        beforeMount(){
-            // if(process.env.NODE_ENV === 'development'){
-            //     this.url = '/ms/table/source';
-            // };
-            // axios.get(this.url).then( (res) => {
-            //     this.information = res.data;
-            // })
-        }
     }
 </script>
 

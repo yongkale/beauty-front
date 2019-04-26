@@ -40,6 +40,15 @@
             </el-form>
         </div>
 
+        <div style="clear: both;"></div>
+        <div v-show="'全部' === type" class="all">
+            <p class="title">会员考核</p>
+            <div id="myChart" :style="{width: '1000px', height: '300px'}"></div>
+            <div style="clear: both;"></div>
+            <p class="title">普通考核</p>
+            <div id="myChart1" :style="{width: '1000px', height: '300px'}"></div>
+        </div>
+
         <el-table
             :data="commonTableData" v-show="'普通' === type"
             style="width: 100%">
@@ -119,7 +128,6 @@
 
 <script>
     import axios from 'axios';
-    import Datasource from 'vue-datasource';
     export default {
         data: function(){
             const self = this;
@@ -133,22 +141,97 @@
                 tableData: [],
                 rules: [],
                 type: "全部",
-                commonTableData: []
+                commonTableData: [],
+                employeeNames: [],
+                commonArray: [],
+                memberArray: [],
             }
         },
         mounted: function() {
-            axios.get('/api/employee/findAll', this.ruleForm).then( (res) => {
-                this.person = res.data;
-            })
+            this.changeType();
         },
         methods: {
+            drawLineMemrber(){
+                // 基于准备好的dom，初始化echarts实例
+                let myChart = this.$echarts.init(document.getElementById('myChart'))
+                // 绘制图表
+                myChart.setOption({
+                    legend: {},
+                    tooltip: {},
+                    dataset: {
+                        dimensions: ['product', '美发', '美甲', '美容'],
+                        source: this.memberArray
+                    },
+                    xAxis: {type: 'category'},
+                    yAxis: {},
+                    // Declare several bar series, each will be mapped
+                    // to a column of dataset.source by default.
+                    series: [
+                        {type: 'bar'},
+                        {type: 'bar'},
+                        {type: 'bar'}
+                    ]
+                });
+            },
+            drawLine(){
+            let myChart1 = this.$echarts.init(document.getElementById('myChart1'))
+                // 绘制图表
+                myChart1.setOption({
+                    legend: {},
+                    tooltip: {},
+                    dataset: {
+                        dimensions: ['product', '美发', '美甲', '美容'],
+                        source: this.commonArray
+                    },
+                    xAxis: {type: 'category'},
+                    yAxis: {},
+                    // Declare several bar series, each will be mapped
+                    // to a column of dataset.source by default.
+                    series: [
+                        {type: 'bar'},
+                        {type: 'bar'},
+                        {type: 'bar'}
+                    ]
+                });
+            },
+            count() {
+
+                let isSearch = false;
+
+                if (this.startday) {
+                    isSearch = true;
+                    var d = new Date(this.startday);  
+                    this.formatstartday = '' + d.getFullYear() + ((d.getMonth() + 1) < 10 ? '0' + (d.getMonth() + 1) : (d.getMonth() + 1)) + ((d.getDate() + 1) < 10 ? '0' + (d.getDate()) : (d.getDate()));  
+                }
+
+                if (this.endday) {
+                    isSearch = true;
+                    d = new Date(this.endday);  
+                    this.formatendday = '' + d.getFullYear() + ((d.getMonth() + 1) < 10 ? '0' + (d.getMonth() + 1) : (d.getMonth() + 1)) + ((d.getDate() + 1) < 10 ? '0' + (d.getDate()) : (d.getDate()));  
+                }
+                
+                if (isSearch) {
+                    let comm = axios.get('/api/performance/countWork?startday=' + this.formatstartday + '&endday=' + this.formatendday).then( (res) => {
+                        this.commonArray = res.data;
+                        this.drawLine();
+                    });
+
+                    let mem = axios.get('/api/performance/membercountWork?startday=' + this.formatstartday + '&endday=' + this.formatendday).then( (res) => {
+                        this.memberArray = res.data;
+                         this.drawLineMemrber();
+                    });
+                }
+            },
             findbillBypeploeName() {
                 axios.get('/api/membercost/peploeName?peploeName=' + this.peploeName).then( (res) => {
                     this.tableData = res.data
-                    // console.log(res.data);
                 });
             },
             changeType() {
+                if ('全部' === this.type) {
+                    this.count();
+                    return;
+                }
 
                 let isSearch = false;
 
@@ -184,11 +267,23 @@
                         });
                     }
                 }
-
-                console.log(this.type);
             }
         }
     }
 </script>
 
-<style src="../../../static/css/datasource.css"></style>
+<style scoped>
+    .all {
+        margin-top:20px;
+    }
+    .title {
+        text-align: center;
+    }
+    #myChart{
+        margin-top:5px;
+    }
+    #myChart1{
+        margin-top:5px;
+        margin-left: 0;
+    }
+</style>
