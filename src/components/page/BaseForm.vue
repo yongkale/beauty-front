@@ -15,11 +15,11 @@
                     <el-input v-model="ruleForm.name"></el-input>
                 </el-form-item>
                 <el-form-item label="ID" prop="memberId">
-                    <el-input v-model="ruleForm.memberId"></el-input>
+                    <el-input v-model="ruleForm.memberId" v-numberInt="ruleForm.memberId"></el-input>
                 </el-form-item>
 
                 <el-form-item label="金额" prop='memberMeony'>
-                    <el-input v-model="ruleForm.memberMeony"></el-input>
+                    <el-input v-model="ruleForm.memberMeony" v-numberInt="ruleForm.memberMeony"></el-input>
                 </el-form-item>
 
                 <el-form-item label="备注" prop='remarks'>
@@ -33,10 +33,8 @@
                 </el-form-item>
 
                 <el-form-item label="类型" prop='memberType'>
-                    <el-select v-model="ruleForm.memberType" placeholder="请选择">
-                        <el-option key="bbk" label="美容" value="美容"></el-option>
-                        <el-option key="xtc" label="美发" value="美发"></el-option>
-                        <el-option key="imoo" label="美甲" value="美甲"></el-option>
+                    <el-select v-model="ruleForm.costType" placeholder="请选择">
+                        <el-option  v-for="(item, index) in costTypes" :key="item.id" :label="item.name" :value="item.name"></el-option>
                     </el-select>
                 </el-form-item>
 
@@ -64,6 +62,7 @@ import axios from 'axios';
                     phoneNumber: '',
                     name: '',
                     repsoenPerson: '',
+                    costTypes: [],
                 },
                 rules: {
                     repsoenPerson: [
@@ -90,10 +89,16 @@ import axios from 'axios';
         mounted: function() {
              axios.get('/api/employee/findAll', this.ruleForm).then( (res) => {
                 this.person = res.data;
-                console.log(this.person);
              })
+             
+             this.getType();
         },
-        methods: {
+        methods: {        
+            getType() {
+                axios.get('./static/data.json').then( (res) => {
+                    this.costTypes = res.data.type;
+                })
+            },
             onSubmit(formName) {
                 const self = this;
                 self.$refs[formName].validate((valid) => {

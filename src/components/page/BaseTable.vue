@@ -11,7 +11,7 @@
 
 
                 <el-form-item label="金额" prop='payMoney'>
-                    <el-input v-model="ruleForm.payMoney"></el-input>
+                    <el-input v-model="ruleForm.payMoney" v-numberInt="ruleForm.payMoney"></el-input>
                 </el-form-item>
                 
                 <el-form-item label="导师" prop="leaderPerson">
@@ -34,9 +34,7 @@
 
                 <el-form-item label="类型" prop='costType'>
                     <el-select v-model="ruleForm.costType" placeholder="请选择">
-                        <el-option key="bbk" label="美容" value="美容"></el-option>
-                        <el-option key="xtc" label="美发" value="美发"></el-option>
-                        <el-option key="imoo" label="美甲" value="美甲"></el-option>
+                        <el-option  v-for="(item, index) in costTypes" :key="item.id" :label="item.name" :value="item.name"></el-option>
                     </el-select>
                 </el-form-item>
 
@@ -61,6 +59,7 @@ import axios from 'axios';
                     assginPerson: '',
                     leaderPerson: '',
                     repsoenPerson: '',
+                    costTypes: [],
                 },
                 person: '',
                 rules: {
@@ -86,10 +85,16 @@ import axios from 'axios';
         mounted: function() {
             axios.get('/api/employee/findAll', this.ruleForm).then( (res) => {
                 this.person = res.data;
-                console.log(this.person);
-             })
+             });
+
+             this.getType();
         },
         methods: {
+            getType() {
+                axios.get('./static/data.json').then( (res) => {
+                    this.costTypes = res.data.type;
+                })
+            },
             onSubmit(formName) {
                 const self = this;
                 self.$refs[formName].validate((valid) => {

@@ -31,24 +31,17 @@
 
         <div class="form-box" v-show="'全部' != type" style="float: left; width: 400px;">
             <el-form ref="ruleForm" label-width="100px" class="demo-ruleForm">
-               <!-- <el-form-item label="请选择类型" prop="peploeName">
-                    <el-select v-model="peploeName" placeholder="请选择" @change="findbillBypeploeName()">
-                        <el-option v-for="(item, index) in type" :key="index" :label="item.employeeName" :value="item.employeeName"></el-option>
-                    </el-select>
-                </el-form-item> -->
                 <el-form-item label="请选择类型" prop='memberType'>
-                    <el-select v-model="memberType" placeholder="请选择" @change="changeType()">
-                        <el-option key="bbk" label="美容" value="美容"></el-option>
-                        <el-option key="xtc" label="美发" value="美发"></el-option>
-                        <el-option key="imoo" label="美甲" value="美甲"></el-option>
+                    <el-select v-model="memberType" placeholder="请选择">
+                        <el-option  v-for="(item, index) in costTypes" :key="item.id" :label="item.name" :value="item.name"></el-option>
                     </el-select>
                 </el-form-item>
             </el-form>
         </div>
         <div style="clear: both;"></div>
         <div v-show="'全部' === type">
-            <div id="myChart" :style="{width: '300px', height: '300px'}"></div>
-            <div id="myChart1" :style="{width: '300px', height: '300px'}"></div>
+            <div id="myChart" :style="{width: '400px', height: '300px'}"></div>
+            <div id="myChart1" :style="{width: '400px', height: '300px'}"></div>
         </div>
         <el-table
             :data="commonTableData" v-show="'普通' === type"
@@ -150,12 +143,26 @@
                 bar: 0,
                 skin: 0,
                 nail: 0,
+                other: 0,
+                memberother: 0,
+                costTypes: [],
+                costTypesName: [],
             }
         },
         mounted: function() {
             this.changeType();
+
+             this.getType();
         },
         methods: {
+            getType() {
+                axios.get('./static/data.json').then( (res) => {
+                    this.costTypes = res.data.type;
+                    this.costTypes.forEach((value) => {
+                        this.costTypesName.push(value.name)
+                    });
+                })
+            },
             drawLineMemrber(){
                 // 基于准备好的dom，初始化echarts实例
                 let myChart = this.$echarts.init(document.getElementById('myChart'))
@@ -165,13 +172,13 @@
                     tooltip: {},
                     xAxis: {
                         type: 'category',
-                        data: ["美容","美发","美甲"]
+                        data: this.costTypesName
                     },
                     yAxis: {type: 'value'},
                     series: [{
-                        name: '人数',
+                        name: '金额',
                         type: 'bar',
-                        data: [this.memberBar, this.memberSkin, this.memberNail]
+                        data: [this.memberBar, this.memberSkin, this.memberNail, this.memberother]
                     }]
                 });
             },
@@ -183,13 +190,13 @@
                     tooltip: {},
                     xAxis: {
                         type: 'category',
-                        data: ["美容","美发","美甲"]
+                        data: this.costTypesName
                     },
                     yAxis: {type: 'value'},
                     series: [{
-                        name: '人数',
+                        name: '金额',
                         type: 'bar',
-                        data: [this.bar, this.skin, this.nail]
+                        data: [this.bar, this.skin, this.nail, this.other]
                     }]
                     
                 });
@@ -214,6 +221,7 @@
                     if ('全部' === this.type) {
                         axios.get('/api/membercost/findCountByType?startday=' + this.formatstartday + '&endday=' + this.formatendday).then( (res) => {
                             res.data.forEach((data) => {
+                                
                                 if (data['member_type'] === '美发') {
                                     this.memberBar = data['count']
                                 }
@@ -226,6 +234,10 @@
                                     this.memberNail = data['count']
                                 }
 
+                                if (data['member_type'] === '其它') {
+                                    this.memberother = data['count']
+                                }
+
                             }) 
 
                              this.drawLineMemrber();
@@ -233,6 +245,7 @@
 
                         axios.get('/api/commmonuser/findCountByType?startday=' + this.formatstartday + '&endday=' + this.formatendday).then( (res) => {
                             res.data.forEach((data) =>{
+                                debugger;
                                 if (data['cost_type'] === '美发') {
                                     this.bar = data['count']
                                 }
@@ -243,6 +256,10 @@
 
                                 if (data['cost_type'] === '美甲') {
                                     this.nail = data['count']
+                                }
+                                
+                                if (data['cost_type'] === '其它') {
+                                    this.other = data['count']
                                 }
 
                             });

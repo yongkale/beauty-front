@@ -149,6 +149,9 @@
         },
         mounted: function() {
             this.changeType();
+             axios.get('/api/employee/findAll', this.ruleForm).then( (res) => {
+                this.person = res.data;
+             })
         },
         methods: {
             drawLineMemrber(){

@@ -116,4 +116,4 @@
     }
 </script>
 
-<style src="../../../static/css/datasource.css"></style>
+<style></style>

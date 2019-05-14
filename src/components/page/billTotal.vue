@@ -60,12 +60,26 @@
                 bar: 0,
                 skin: 0,
                 nail: 0,
+                other: 0,
+                memberother: 0,
+                costTypes: [],
+                costTypesName: [],
             }
         },
         mounted: function() {
              this.findbill();
+             
+             this.getType();
         },
         methods: {
+            getType() {
+                axios.get('./static/data.json').then( (res) => {
+                    this.costTypes = res.data.type;
+                    this.costTypes.forEach((value) => {
+                        this.costTypesName.push(value.name)
+                    });
+                })
+            },
             drawLine(){
                 // 基于准备好的dom，初始化echarts实例
                 let myChart = this.$echarts.init(document.getElementById('myChart'))
@@ -91,7 +105,7 @@
                     },
                     series : [
                         {
-                            name: '访问来源',
+                            name: '收入',
                             type: 'pie',
                             radius : '55%',
                             center: ['50%', '60%'],
@@ -161,6 +175,9 @@
                                 this.nail = data['count']
                             }
 
+                            if (data['cost_type'] === '其它') {
+                                this.other = data['count']
+                            }
                         });
                         this.drawLineType();
                     });
@@ -179,6 +196,9 @@
                                 this.memberNail = data['count']
                             }
 
+                            if (data['member_type'] === '其它') {
+                                this.memberother = data['count']
+                            }
                         }) 
 
                             this.drawLineMemrber();
@@ -199,13 +219,13 @@
                     tooltip: {},
                     xAxis: {
                         type: 'category',
-                        data: ["美容","美发","美甲"]
+                        data: this.costTypesName
                     },
                     yAxis: {type: 'value',},
                     series: [{
                         name: '金额',
                         type: 'bar',
-                        data: [this.bar, this.skin, this.nail]
+                        data: [this.bar, this.skin, this.nail, this.other]
                     }]
                     
                 });
@@ -219,13 +239,13 @@
                     tooltip: {},
                     xAxis: {
                         type: 'category',
-                        data: ["美容","美发","美甲"]
+                        data: this.costTypesName
                     },
                     yAxis: {type: 'value'},
                     series: [{
                         name: '金额',
                         type: 'bar',
-                        data: [this.memberBar, this.memberSkin, this.memberNail]
+                        data: [this.memberBar, this.memberSkin, this.memberNail, this.memberother]
                     }]
                 });
             },
@@ -238,13 +258,13 @@
                     tooltip: {},
                     xAxis: {
                         type: 'category',
-                        data: ["美容","美发","美甲"]
+                        data: this.costTypesName
                     },
                     yAxis: {type: 'value'},
                     series: [{
                         name: '金额',
                         type: 'bar',
-                        data: [this.memberBar + this.bar, this.memberSkin + this.skin, this.memberNail + this.nail]
+                        data: [this.memberBar + this.bar, this.memberSkin + this.skin, this.memberNail + this.nail, this.other + this.memberother]
                     }]
                 });
             },

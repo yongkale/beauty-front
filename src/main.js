@@ -18,6 +18,18 @@ axios.interceptors.response.use(function (response) {
     return Promise.reject(error) 
 })
 
+Vue.directive('numberInt', {  bind: function(el, binding, vnode) { 
+    const element = el.getElementsByTagName('input')[0]  
+    const len = binding.arg    // 初始化设置 
+    
+    element.addEventListener('keyup', function() { 
+     if (isNaN(Number(element.value).toFixed(len))) {     
+        vnode.data.model.callback(String(element.value).replace(/\D/g, ''))    
+       } else {     
+        vnode.data.model.callback(Number(element.value ).toFixed(len))
+      }   
+    }) 
+}});
 
 router.beforeEach((to, from, next) => {
     if ('/login' != to.fullPath) {

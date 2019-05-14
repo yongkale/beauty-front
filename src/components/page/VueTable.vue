@@ -71,12 +71,10 @@
         mounted: function() {
              axios.get('/api/commmonuser/findAll', this.ruleForm).then( (res) => {
                 this.tableData = res.data
-                console.log(this.tableData);
              })
         },
         methods: {
             detail(row) {
-                console.log(row);
             },
             eidt(row) {
                 this.$router.push({ path: '/editusertable', query: {memberId: row.memberId, memberType: row.memberType}})
@@ -102,4 +100,4 @@
     }
 </script>
 
-<style src="../../../static/css/datasource.css"></style>
+<style></style>

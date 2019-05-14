@@ -64,8 +64,7 @@
         },
         mounted: function() {
              axios.get('/api/employee/findAll', this.ruleForm).then( (res) => {
-                this.tableData = res.data
-                console.log(this.tableData);
+                this.tableData = res.data;
              })
         },
         methods: {
@@ -96,4 +95,4 @@
     }
 </script>
 
-<style src="../../../static/css/datasource.css"></style>
+<style></style>
