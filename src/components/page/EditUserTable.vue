@@ -15,7 +15,7 @@
                     <el-input v-model="ruleForm.name"></el-input>
                 </el-form-item>
                 <el-form-item label="ID" prop="memberId">
-                    <el-input v-model="ruleForm.memberId"></el-input>
+                    <el-input v-model="ruleForm.memberId" disabled=true></el-input>
                 </el-form-item>
 
                 <el-form-item label="金额" prop='memberMeony'>
@@ -29,14 +29,6 @@
                 <el-form-item label="责任人" prop="repsoenPerson">
                     <el-select v-model="ruleForm.repsoenPerson" placeholder="请选择">
                         <el-option v-for="(item, index) in person" :key="index" :label="item.employeeName" :value="item.employeeName"></el-option>
-                    </el-select>
-                </el-form-item>
-
-                <el-form-item label="类型" prop='memberType'>
-                    <el-select v-model="ruleForm.memberType" placeholder="请选择">
-                        <el-option key="bbk" label="美容" value="美容"></el-option>
-                        <el-option key="xtc" label="美发" value="美发"></el-option>
-                        <el-option key="imoo" label="美甲" value="美甲"></el-option>
                     </el-select>
                 </el-form-item>
 
@@ -86,9 +78,9 @@ import axios from 'axios';
                             this.user = res.data;
                             if (res.data) {
                                 self.$router.push('/memberList');
-                                this.$message('添加成功');
+                                this.$message('修改成功');
                             } else {
-                                this.$message('添加失败');
+                                this.$message('修改失败');
                             }
                         });
                     } else {

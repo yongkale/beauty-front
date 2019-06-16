@@ -14,10 +14,6 @@
                 <el-form-item label="姓名" prop="name">
                     <el-input v-model="ruleForm.name"></el-input>
                 </el-form-item>
-                <el-form-item label="ID" prop="memberId">
-                    <el-input v-model="ruleForm.memberId" v-numberInt="ruleForm.memberId"></el-input>
-                </el-form-item>
-
                 <el-form-item label="金额" prop='memberMeony'>
                     <el-input v-model="ruleForm.memberMeony" v-numberInt="ruleForm.memberMeony"></el-input>
                 </el-form-item>
@@ -29,12 +25,6 @@
                 <el-form-item label="责任人" prop="repsoenPerson">
                     <el-select v-model="ruleForm.repsoenPerson" placeholder="请选择">
                         <el-option v-for="(item, index) in person" :key="index" :label="item.employeeName" :value="item.employeeName"></el-option>
-                    </el-select>
-                </el-form-item>
-
-                <el-form-item label="类型" prop='memberType'>
-                    <el-select v-model="ruleForm.costType" placeholder="请选择">
-                        <el-option  v-for="(item, index) in costTypes" :key="item.id" :label="item.name" :value="item.name"></el-option>
                     </el-select>
                 </el-form-item>
 
@@ -75,13 +65,9 @@ import axios from 'axios';
                     phoneNumber: '',
                     name: '',
                     repsoenPerson: '',
-                    costTypes: [],
                 },
                 rules: {
                     repsoenPerson: [
-                        { required: true, message: '请输入', trigger: 'blur' }
-                    ],
-                    memberId: [
                         { required: true, message: '请输入', trigger: 'blur' }
                     ],
                     phoneNumber: [
@@ -103,15 +89,8 @@ import axios from 'axios';
              axios.get('/api/employee/findAll', this.ruleForm).then( (res) => {
                 this.person = res.data;
              })
-             
-             this.getType();
         },
         methods: {        
-            getType() {
-                axios.get('./static/data.json').then( (res) => {
-                    this.costTypes = res.data.type;
-                })
-            },
             onSubmit(formName) {
                 const self = this;
                 self.$refs[formName].validate((valid) => {

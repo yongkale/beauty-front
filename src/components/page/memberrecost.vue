@@ -27,8 +27,11 @@
                 </el-form-item>
 
 
-                <el-form-item label="类型" prop='memberType'>
-                    <el-input v-model="ruleForm.memberType" disabled=true ></el-input>
+
+                <el-form-item label="类型" prop='costType'>
+                    <el-select v-model="ruleForm.costType" placeholder="请选择">
+                        <el-option  v-for="(item, index) in costTypes" :key="item.id" :label="item.name" :value="item.name"></el-option>
+                    </el-select>
                 </el-form-item>
 
                 
@@ -90,8 +93,7 @@ import axios from 'axios';
         },
         mounted: function() {
             let memberId = this.$route.query.memberId; 
-            let memberType = this.$route.query.memberType;
-            axios.get('/api/member/findMemberUserBytypeAndId?memberId=' + memberId + "&memberType=" + memberType).then( (res) => {
+            axios.get('/api/member/findMemberUserBytypeAndId?memberId=' + memberId).then( (res) => {
                 this.ruleForm = res.data;
                 this.ruleForm.repsoenPerson = '';
                 this.ruleForm.costMoney = '';
@@ -99,10 +101,16 @@ import axios from 'axios';
             })
             axios.get('/api/employee/findAll', this.ruleForm).then( (res) => {
                 this.person = res.data;
-                console.log(this.person);
              })
+
+             this.getType();
         },
         methods: {
+            getType() {
+                axios.get('./static/data.json').then( (res) => {
+                    this.costTypes = res.data.type;
+                })
+            },
             onSubmit(formName) {
                 const self = this;
                 self.$refs[formName].validate((valid) => {

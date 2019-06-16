@@ -26,11 +26,6 @@
                     <el-input v-model="ruleForm.remarks"></el-input>
                 </el-form-item>
 
-
-                <el-form-item label="类型" prop='memberType'>
-                    <el-input v-model="ruleForm.memberType" disabled=true ></el-input>
-                </el-form-item>
-
                 <el-form-item label="责任人" prop="repsoenPerson">
                     <el-select v-model="ruleForm.repsoenPerson" placeholder="请选择">
                         <el-option v-for="(item, index) in person" :key="index" :label="item.employeeName" :value="item.employeeName"></el-option>
@@ -56,7 +51,6 @@ import axios from 'axios';
                 ,
                 ruleForm: {
                     memberId: '',
-                    memberType: '',
                     memberMeony: '',
                     remarks: '',
                     phoneNumber: '',
@@ -78,8 +72,7 @@ import axios from 'axios';
         },
         mounted: function() {
             let memberId = this.$route.query.memberId; 
-            let memberType = this.$route.query.memberType;
-            axios.get('/api/member/findMemberUserBytypeAndId?memberId=' + memberId + "&memberType=" + memberType).then( (res) => {
+            axios.get('/api/member/findMemberUserBytypeAndId?memberId=' + memberId).then( (res) => {
                 this.ruleForm = res.data;
                 this.ruleForm.repsoenPerson = '';
                 this.ruleForm.memberMeony = '';

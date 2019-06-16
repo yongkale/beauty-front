@@ -76,6 +76,11 @@ export default new Router({
                     component: resolve => require(['../components/page/employeeAssessment.vue'], resolve)    // 拖拽列表组件
                 },
                 {
+                    path: '/editusertable',
+                    name: 'editusertable',
+                    component: resolve => require(['../components/page/EditUserTable.vue'], resolve)     // vue-datasource组件
+                },
+                {
                     path: '/typeAssessment',
                     component: resolve => require(['../components/page/typeAssessment.vue'], resolve)    // 拖拽列表组件
                 }

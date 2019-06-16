@@ -29,24 +29,19 @@
             :data="tableData"
             style="width: 100%">
             <el-table-column
-                prop="memberId"
-                label="会员ID"
-                width="130">
+                prop="name"
+                label="姓名"
+                width="150">
             </el-table-column>
             <el-table-column
-                prop="memberType"
-                label="类型"
+                prop="phoneNumber"
+                label="手机号"
                 width="130">
             </el-table-column>
             <el-table-column
                 prop="memberMeony"
                 label="金额"
                 width="126">
-            </el-table-column>
-            <el-table-column
-                prop="remarks"
-                label="备注"
-                width="130">
             </el-table-column>
             <el-table-column
                 prop="payDate"
@@ -57,6 +52,11 @@
                 prop="repsoenPerson"
                 label="责任人"
                 width="190">
+            </el-table-column>
+            <el-table-column
+                prop="remarks"
+                label="备注"
+                width="240">
             </el-table-column>
         </el-table>
     </div>

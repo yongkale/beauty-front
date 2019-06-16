@@ -32,10 +32,10 @@
         <div style="clear: both;"></div>
         <div>
             <div id="myChart" :style="{width: '400px', height: '400px'}"></div>
-            <div id="myChart4" :style="{width: '300px', height: '300px'}"></div>
+            <!-- <div id="myChart4" :style="{width: '300px', height: '300px'}"></div>-->
             <div style="clear: both;"></div>
             <div id="myChart1" :style="{width: '300px', height: '300px'}"></div>
-            <div id="myChart2" :style="{width: '300px', height: '300px'}"></div>
+            <!--<div id="myChart2" :style="{width: '300px', height: '300px'}"></div>-->
         </div>
     </div>
 </template>
@@ -131,13 +131,13 @@
                 if (this.startday) {
                     isSearch = true;
                     var d = new Date(this.startday);  
-                    this.formatstartday = '' + d.getFullYear() + ((d.getMonth() + 1) < 10 ? '0' + (d.getMonth() + 1) : (d.getMonth() + 1)) + d.getDate();  
+                    this.formatstartday = '' + d.getFullYear() + ((d.getMonth() + 1) < 10 ? '0' + (d.getMonth() + 1) : (d.getMonth() + 1)) + ((d.getDate() + 1) < 10 ? '0' + (d.getDate()) : (d.getDate()));    
                 }
 
                 if (this.endday) {
                     isSearch = true;
                     d = new Date(this.endday);  
-                    this.formatendday = '' + d.getFullYear() + ((d.getMonth() + 1) < 10 ? '0' + (d.getMonth() + 1) : (d.getMonth() + 1)) + d.getDate();  
+                    this.formatendday = '' + d.getFullYear() + ((d.getMonth() + 1) < 10 ? '0' + (d.getMonth() + 1) : (d.getMonth() + 1)) + ((d.getDate() + 1) < 10 ? '0' + (d.getDate()) : (d.getDate()));    
                 }
 
                 if (isSearch) {
@@ -182,32 +182,32 @@
                         this.drawLineType();
                     });
 
-                    let mem = axios.get('/api/rechage/findMoneyByType?startday=' + this.formatstartday + '&endday=' + this.formatendday).then( (res) => {
-                        res.data.forEach((data) => {
-                            if (data['member_type'] === '美发') {
-                                this.memberBar = data['count']
-                            }
+                    // let mem = axios.get('/api/rechage/findMoneyByType?startday=' + this.formatstartday + '&endday=' + this.formatendday).then( (res) => {
+                    //     res.data.forEach((data) => {
+                    //         if (data['member_type'] === '美发') {
+                    //             this.memberBar = data['count']
+                    //         }
 
-                            if (data['member_type'] === '美容') {
-                                this.memberSkin = data['count']
-                            }
+                    //         if (data['member_type'] === '美容') {
+                    //             this.memberSkin = data['count']
+                    //         }
 
-                            if (data['member_type'] === '美甲') {
-                                this.memberNail = data['count']
-                            }
+                    //         if (data['member_type'] === '美甲') {
+                    //             this.memberNail = data['count']
+                    //         }
 
-                            if (data['member_type'] === '其它') {
-                                this.memberother = data['count']
-                            }
-                        }) 
+                    //         if (data['member_type'] === '其它') {
+                    //             this.memberother = data['count']
+                    //         }
+                    //     }) 
 
-                            this.drawLineMemrber();
-                    });
+                    //         this.drawLineMemrber();
+                    // });
 
                     
-                    Promise.all([mem, com]).then( () => {
-                        this.drawLineTotal();
-                    });
+                    // Promise.all([mem, com]).then( () => {
+                    //     this.drawLineTotal();
+                    // });
                     
                 } 
             },
@@ -230,44 +230,44 @@
                     
                 });
             },
-            drawLineMemrber(){
-                // 基于准备好的dom，初始化echarts实例
-                let myChart2 = this.$echarts.init(document.getElementById('myChart2'))
-                // 绘制图表
-                myChart2.setOption({
-                    title: { text: '会员收入' },
-                    tooltip: {},
-                    xAxis: {
-                        type: 'category',
-                        data: this.costTypesName
-                    },
-                    yAxis: {type: 'value'},
-                    series: [{
-                        name: '金额',
-                        type: 'bar',
-                        data: [this.memberBar, this.memberSkin, this.memberNail, this.memberother]
-                    }]
-                });
-            },
-            drawLineTotal(){
-                // 基于准备好的dom，初始化echarts实例
-                let myChart4 = this.$echarts.init(document.getElementById('myChart4'))
-                // 绘制图表
-                myChart4.setOption({
-                    title: { text: '总收入' },
-                    tooltip: {},
-                    xAxis: {
-                        type: 'category',
-                        data: this.costTypesName
-                    },
-                    yAxis: {type: 'value'},
-                    series: [{
-                        name: '金额',
-                        type: 'bar',
-                        data: [this.memberBar + this.bar, this.memberSkin + this.skin, this.memberNail + this.nail, this.other + this.memberother]
-                    }]
-                });
-            },
+            // drawLineMemrber(){
+            //     // 基于准备好的dom，初始化echarts实例
+            //     let myChart2 = this.$echarts.init(document.getElementById('myChart2'))
+            //     // 绘制图表
+            //     myChart2.setOption({
+            //         title: { text: '会员收入' },
+            //         tooltip: {},
+            //         xAxis: {
+            //             type: 'category',
+            //             data: this.costTypesName
+            //         },
+            //         yAxis: {type: 'value'},
+            //         series: [{
+            //             name: '金额',
+            //             type: 'bar',
+            //             data: [this.memberBar, this.memberSkin, this.memberNail, this.memberother]
+            //         }]
+            //     });
+            // },
+            // drawLineTotal(){
+            //     // 基于准备好的dom，初始化echarts实例
+            //     let myChart4 = this.$echarts.init(document.getElementById('myChart4'))
+            //     // 绘制图表
+            //     myChart4.setOption({
+            //         title: { text: '总收入' },
+            //         tooltip: {},
+            //         xAxis: {
+            //             type: 'category',
+            //             data: this.costTypesName
+            //         },
+            //         yAxis: {type: 'value'},
+            //         series: [{
+            //             name: '金额',
+            //             type: 'bar',
+            //             data: [this.memberBar + this.bar, this.memberSkin + this.skin, this.memberNail + this.nail, this.other + this.memberother]
+            //         }]
+            //     });
+            // },
         },
     }
 </script>

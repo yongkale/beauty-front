@@ -22,8 +22,8 @@
                 width="130">
             </el-table-column>
             <el-table-column
-                prop="memberType"
-                label="类型"
+                prop="phoneNumber"
+                label="手机号"
                 width="130">
             </el-table-column>
             <el-table-column
@@ -54,6 +54,17 @@
                 </template>
             </el-table-column>
         </el-table>
+        <div class="block pagination-list">
+            <el-pagination
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :current-page="currentPage"
+            :page-sizes="[5, 10, 20, 50]"
+            :page-size= "pageSzie"
+            layout="total, sizes, prev, pager, next, jumper"
+            :total= "total">
+            </el-pagination>
+        </div>
     </div>
 </template>
 
@@ -64,6 +75,9 @@
         data: function(){
             const self = this;
             return {
+                pageSzie: 5,
+                total: 0,
+                currentPage: 1,
                 searchKey: '',
                 url: './static/datasource.json',
                 information: {
@@ -83,24 +97,35 @@
             }
         },
         mounted: function() {
-             axios.get('/api/member/findAll', this.ruleForm).then( (res) => {
-                this.tableData = res.data
-             })
+            //  axios.get('/api/member/findAll', this.ruleForm).then( (res) => {
+            //     this.tableData = res.data;
+            //  })
+            this.search();
         },
         methods: {
+            handleSizeChange(pageSzie) {
+                this.pageSzie = pageSzie;
+                this.search();
+            },
+            handleCurrentChange(currentPage) {
+                this.currentPage = currentPage;
+                this.search();
+            },
             search() {
-                axios.get('/api/member/search?searchKey=' + this.searchKey).then( (res) => {
-                this.tableData = res.data
-            })
+                this.searchKey = this.searchKey.replace('\\','');
+                axios.get('/api/member/search?searchKey=' + this.searchKey + "&pageSzie=" + this.pageSzie + "&pageNo=" + this.currentPage).then( (res) => {
+                    this.tableData = res.data.records
+                    this.total = res.data.totalRecord;
+                });
             },
             detail(row) {
-                this.$router.push({ path: '/memberredetail', query: {memberId: row.memberId, memberType: row.memberType, idRef: row.id}})
+                this.$router.push({ path: '/memberredetail', query: {memberId: row.memberId, idRef: row.id}})
             },
             recharge(row) {
-                this.$router.push({ path: '/memberrecharge', query: {memberId: row.memberId, memberType: row.memberType}})
+                this.$router.push({ path: '/memberrecharge', query: {memberId: row.memberId}})
             },
             cost(row){
-                this.$router.push({ path: '/memberrecost', query: {memberId: row.memberId, memberType: row.memberType}})
+                this.$router.push({ path: '/memberrecost', query: {memberId: row.memberId}})
             },
             eidt(row) {
                 this.$router.push({ path: '/editusertable', query: {id: row.id}})
@@ -116,4 +141,8 @@
     }
 </script>
 
-<style></style>
+<style>
+    .pagination-list {
+        margin-top: 20px;
+    }
+</style>

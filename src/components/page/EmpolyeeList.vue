@@ -33,6 +33,7 @@
                 width="100">
                 <template slot-scope="scope">
                     <el-button @click="eidt(scope.row)" type="text" size="small">编辑</el-button>
+                    <el-button @click="leave(scope.row)" type="text" size="small">离职</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -51,15 +52,6 @@
                     data:[]
                 },
                 tableData: [],
-                actions: [
-                    {
-                        text: 'Click',
-                        class: 'btn-primary',
-                        event(e, row) {
-                            self.$message('选中的行数： ' + row.row.id);
-                        }
-                    }
-                ],
             }
         },
         mounted: function() {
@@ -68,6 +60,11 @@
              })
         },
         methods: {
+            leave(row) {
+                axios.get('/api/employee/delete?id=' + row.id).then( (res) => {
+                    this.tableData = res.data;
+                });
+            },
             detail(row) {
                 console.log(row);
             },

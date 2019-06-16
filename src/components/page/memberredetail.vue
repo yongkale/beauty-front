@@ -26,11 +26,6 @@
                 width="130">
             </el-table-column>
             <el-table-column
-                prop="memberType"
-                label="类型"
-                width="130">
-            </el-table-column>
-            <el-table-column
                 prop="memberMeony"
                 label="金额"
                 width="70">
@@ -61,14 +56,9 @@
                 width="148">
             </el-table-column>
             <el-table-column
-                prop="memberType"
-                label="类型"
-                width="70">
-            </el-table-column>
-            <el-table-column
                 prop="phoneNumber"
                 label="手机号"
-                width="100">
+                width="150">
             </el-table-column>
             <el-table-column
                 prop="memberMeony"
@@ -99,11 +89,6 @@
                 prop="memberId"
                 label="会员ID"
                 width="148">
-            </el-table-column>
-            <el-table-column
-                prop="memberType"
-                label="类型"
-                width="70">
             </el-table-column>
             <el-table-column
                 prop="costMoney"
@@ -162,7 +147,6 @@
                 chagetableData: '',
                 updateTableData: '',
                 memberId: '',
-                memberType: '',
                 idRef: ''
                 // actions: [
                 //     {
@@ -177,16 +161,15 @@
         },
         mounted: function() {
             this.memberId = this.$route.query.memberId; 
-            this.memberType = this.$route.query.memberType;
             this.idRef = this.$route.query.idRef;
-            axios.get('/api/membercost/findByMemberIdAndMemberType?memberId=' + this.memberId + "&memberType=" + this.memberType).then( (res) => {
+            axios.get('/api/membercost/findByMemberIdAndMemberType?memberId=' + this.memberId).then( (res) => {
                 this.tableData = res.data;
             })
         },
         methods: {
             changeType() {
                 if (!this.chagetableData && "充值" === this.type) {
-                    axios.get('/api/bill/findCostMerber?memberId=' + this.memberId + "&memberType=" + this.memberType).then( (res) => {
+                    axios.get('/api/bill/findCostMerber?memberId=' + this.memberId).then( (res) => {
                         console.log(res.data)
                         this.chagetableData = res.data
                     })
